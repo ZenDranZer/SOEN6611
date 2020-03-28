@@ -29,7 +29,7 @@ We need to perform various test suits in order to achieve full coverage of the p
                      ├── metric4          # Metric 4 related all the output files.
                      ├── metric5          # Metric 5 related all the output files.
                      ├── metric6          # Metric 6 related all the output files.
-                     ├── Docs             # All documentation files
+                     ├── CorrelationDocumentation             # All documentation files
     └── README.md
 
 
