@@ -55,7 +55,7 @@ Depending your operating system, one of these installation methods may work for 
   sudo pkg install cloc                  # FreeBSD
   sudo port install cloc                 # Mac OS X with MacPorts
   
-For windows operating system, Download the latest cloc.exe and open command prompt and run the following commands
+For windows operating system, Download the latest cloc.exe and open command prompt and run the following command
 prompt>cloc-1.84
 
                        cloc -- Count Lines of Code
