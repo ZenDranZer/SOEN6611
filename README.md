@@ -45,6 +45,40 @@ We need to perform various test suits in order to achieve full coverage of the p
 7. Select Knots checkbox -> Export 
 **It will export a .csv file to the specified destination.**
 
+
+#### Installation and Configuration for CLOC tool
+
+Depending your operating system, one of these installation methods may work for you:
+
+  npm install -g cloc                    # https://www.npmjs.com/package/cloc
+  sudo apt-get install cloc              # Debian, Ubuntu
+  sudo yum install cloc                  # Red Hat, Fedora
+  sudo pacman -S cloc                    # Arch
+  sudo pkg install cloc                  # FreeBSD
+  sudo port install cloc                 # Mac OS X with MacPorts
+
+For windows operating system, Download the latest cloc.exe and open command prompt and run the following commands
+prompt>cloc-1.84
+
+                       cloc -- Count Lines of Code
+
+Usage:
+    cloc-1.84.exe [options] <file(s)/dir(s)/git hash(es)>
+        Count physical lines of source code and comments in the given files
+        (may be archives such as compressed tarballs or zip files) and/or
+        recursively below the given directories or git commit hashes.
+        Example:    cloc src/ include/ main.c
+
+    cloc-1.84.exe [options] --diff <set1>  <set2>
+        Compute differences of physical lines of source code and comments
+        between any pairwise combination of directory names, archive
+        files or git commit hashes.
+        Example:    cloc --diff Python-3.5.tar.xz python-3.6/
+
+cloc-1.84.exe --help  shows full documentation on the options.
+https://github.com/AlDanial/cloc has numerous examples and more information.
+
+
 #### Team members:
 
 
