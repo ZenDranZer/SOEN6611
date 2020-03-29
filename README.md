@@ -48,13 +48,12 @@ We need to perform various test suits in order to achieve full coverage of the p
 
 #### Installation and Configuration for CLOC tool
 Depending your operating system, one of these installation methods may work for you:
-  .
-  npm install -g cloc                    # https://www.npmjs.com/package/cloc
-  sudo apt-get install cloc              # Debian, Ubuntu
-  sudo yum install cloc                  # Red Hat, Fedora
-  sudo pacman -S cloc                    # Arch
-  sudo pkg install cloc                  # FreeBSD
-  sudo port install cloc                 # Mac OS X with MacPorts
+ 1. npm install -g cloc                    # https://www.npmjs.com/package/cloc
+ 2. sudo apt-get install cloc              # Debian, Ubuntu
+ 3. sudo yum install cloc                  # Red Hat, Fedora
+ 4. sudo pacman -S cloc                    # Arch
+ 5. sudo pkg install cloc                  # FreeBSD
+ 6. sudo port install cloc                 # Mac OS X with MacPorts
   
 For windows operating system, Download the latest cloc.exe and open command prompt and run the following command
 prompt>cloc-1.84
