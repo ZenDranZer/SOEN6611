@@ -47,7 +47,6 @@ We need to perform various test suits in order to achieve full coverage of the p
 
 
 #### Installation and Configuration for CLOC tool
-
 Depending your operating system, one of these installation methods may work for you:
 
   npm install -g cloc                    # https://www.npmjs.com/package/cloc
@@ -56,7 +55,7 @@ Depending your operating system, one of these installation methods may work for 
   sudo pacman -S cloc                    # Arch
   sudo pkg install cloc                  # FreeBSD
   sudo port install cloc                 # Mac OS X with MacPorts
-
+  
 For windows operating system, Download the latest cloc.exe and open command prompt and run the following commands
 prompt>cloc-1.84
 
