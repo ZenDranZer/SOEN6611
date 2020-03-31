@@ -86,6 +86,26 @@ Usage:
 cloc-1.84.exe --help  shows full documentation on the options.
 https://github.com/AlDanial/cloc has numerous examples and more information.
 
+#### Configuration for Mutation Testing test
+The following steps provides the execution and evaluation process of mutation testing
+ 1. Copy the plugin into the pom file of your java project.
+ 2. plugin---
+			<plugin> 
+			<groupId> org.pitest </groupId> 
+			<artifactId> pitest-maven </artifactId> 
+			<version> LATEST </version> 
+			<configuration> 
+				<outputFormats> 
+					<param> HTML </param> 
+					<param> CSV </param> 
+				</outputFormats> 
+			</configuration> 
+			</plugin>
+ 3. Execute mvn clean install
+ 4. Execute mvn org.pitest:pitest-maven:mutationCoverage -X
+ 5. A .csv file is create showing various mutaion score of every mutation test that has been applied to the project.
+ 6. Execute the ClassMutationScore.py generator to generate class wise mutation score.
+
 
 #### Team members:
 
