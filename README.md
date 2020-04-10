@@ -53,7 +53,7 @@ We need to perform various test suits in order to achieve full coverage of the p
 
 #### Installation and Configuration for CLOC tool
 Depending your operating system, one of these installation methods may work for you:
- 1. npm install -g cloc                    # https://www.npmjs.com/package/cloc
+ 1. npm install -g cloc                    # [*CLOC installation*](https://www.npmjs.com/package/cloc)
  2. sudo apt-get install cloc              # Debian, Ubuntu
  3. sudo yum install cloc                  # Red Hat, Fedora
  4. sudo pacman -S cloc                    # Arch
