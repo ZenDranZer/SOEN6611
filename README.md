@@ -30,11 +30,13 @@ We need to perform various test suits in order to achieve full coverage of the p
 	├── Metric data analysis
 		├── MetricCorrelation				# Correlation metric level
 			├── metric1&2_3				# Correlation between metric 1 and 2 with 3
+				├── Jupyter Notebook		# Correlation source code and Plots
+				├── html			# Generated HTML of Correlation Jupyter Notebook
 			├── metric1&2_6				# Correlation between metric 1 and 2 with 6
 			├── metric4_1&2				# Correlation between metric 1 and 2 with 4
 			├── metric5_6				# Correlation between metric 5 with 6
-		├── ProjectCorrelation				# Correlation project level
-	├── Documentation					# Documentation for the project
+		├── ProjectAnalysis				# Project level data analysis
+	├── Documents						# Documentation for the project
 	└── README.md
 
 
