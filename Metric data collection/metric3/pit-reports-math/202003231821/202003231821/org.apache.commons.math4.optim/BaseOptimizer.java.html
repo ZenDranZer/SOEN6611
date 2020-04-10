@@ -1,0 +1,4193 @@
+<html>
+<head>
+<style type='text/css'>
+html, body, div, span, p, blockquote, pre {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+body{
+	line-height: 1;
+	color: black;
+	background: white;
+	margin-left: 20px;
+}
+
+.src { 
+	border: 1px solid #dddddd;
+	padding-top: 10px;
+	padding-right: 5px;
+	padding-left: 5px;
+	font-family: Consolas, Courier, monospace;
+}
+
+
+.covered {background-color: #ddffdd}
+.uncovered {background-color: #ffdddd}
+.killed {background-color: #aaffaa}
+.survived {background-color: #ffaaaa}
+.uncertain {background-color: #dde7ef}
+.run_error {background-color: #dde7ef}
+.na {background-color: #eeeeee}
+.timed_out {background-color: #dde7ef}
+.non_viable {background-color: #aaffaa}
+.memory_error {background-color: #dde7ef}
+.not_started {background-color: #dde7ef; color : red}
+.no_coverage {background-color: #ffaaaa}
+
+
+.pop {outline:none; }
+.pop strong {line-height:30px;}
+.pop {text-decoration:none;}
+.pop span { z-index:10;display:none; padding:14px 20px; margin-top:-30px; margin-left:28px; width:800px; line-height:16px; word-wrap:break-word; }
+.pop:hover span{ display:inline; position:absolute; color:#111; border:1px solid #DCA; background:#fffAF0;}
+
+.pop span { border-radius:4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; -moz-box-shadow: 5px 5px 8px #CCC; -webkit-box-shadow: 5px 5px 8px #CCC; box-shadow: 5px 5px 8px #CCC; }
+</style>
+
+</head>
+<body>
+
+
+<h1>BaseOptimizer.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_1'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/*</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_2'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * Licensed to the Apache Software Foundation (ASF) under one or more</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_3'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * contributor license agreements.  See the NOTICE file distributed with</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_4'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * this work for additional information regarding copyright ownership.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_5'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * The ASF licenses this file to You under the Apache License, Version 2.0</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_6'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * (the &#34;License&#34;); you may not use this file except in compliance with</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_7'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * the License.  You may obtain a copy of the License at</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_8'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_9'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *      http://www.apache.org/licenses/LICENSE-2.0</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_10'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_11'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * Unless required by applicable law or agreed to in writing, software</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_12'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * distributed under the License is distributed on an &#34;AS IS&#34; BASIS,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_13'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_14'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * See the License for the specific language governing permissions and</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_15'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * limitations under the License.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_16'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_17'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.apache.commons.math4.optim;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_18'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_19'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.commons.math4.exception.TooManyEvaluationsException;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_20'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.commons.math4.exception.TooManyIterationsException;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_21'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.commons.math4.util.IntegerSequence;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_22'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_23'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_24'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * Base class for implementing optimizers.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_25'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * It contains the boiler-plate code for counting the number of evaluations</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_26'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * of the objective function and the number of iterations of the algorithm,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_27'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * and storing the convergence checker.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_28'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * &#60;em&#62;It is not a &#34;user&#34; class.&#60;/em&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_29'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_30'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * @param &#60;PAIR&#62; Type of the point/value pair returned by the optimization</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_31'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * algorithm.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_32'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_33'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * @since 3.1</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_34'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_35'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>public abstract class BaseOptimizer&#60;PAIR&#62; {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_36'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /** Callback to use for the evaluation counter. */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_37'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static final MaxEvalCallback MAX_EVAL_CALLBACK = new MaxEvalCallback();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_38'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /** Callback to use for the iteration counter. */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_39'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static final MaxIterCallback MAX_ITER_CALLBACK = new MaxIterCallback();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_40'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_41'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /** Convergence checker. */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_42'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private final ConvergenceChecker&#60;PAIR&#62; checker;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_43'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /** Maximum number of evaluations. */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_44'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private int maxEvaluations;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_45'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /** Maximum number of iterations. */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_46'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private int maxIterations;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_47'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /** Evaluations counter. */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_48'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private IntegerSequence.Incrementor evaluations;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_49'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /** Iterations counter. */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_50'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private IntegerSequence.Incrementor iterations;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_51'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_52'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_53'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param checker Convergence checker.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_54'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_55'/>
+55
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_55'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    protected BaseOptimizer(ConvergenceChecker&#60;PAIR&#62; checker) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_56'/>
+56
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_56'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this(checker, 0, Integer.MAX_VALUE);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_57'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_58'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_59'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_60'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param checker Convergence checker.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_61'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param maxEval Maximum number of objective function evaluations.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_62'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param maxIter Maximum number of algorithm iterations.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_63'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_64'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    protected BaseOptimizer(ConvergenceChecker&#60;PAIR&#62; checker,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_65'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>                            int maxEval,</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_66'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                            int maxIter) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_67'/>
+67
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_67'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.checker = checker;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_68'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.maxEvaluations = maxEval;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_69'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.maxIterations = maxIter;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_70'/>
+70
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_70'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_71'/>
+71
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_71'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_72'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_73'/>
+73
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_73'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Gets the maximal number of function evaluations.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_74'/>
+74
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_74'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_75'/>
+75
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_75'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return the maximal number of function evaluations.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_76'/>
+76
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_76'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_77'/>
+77
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_77'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public int getMaxEvaluations() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_78'/>
+78
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_78'>1</a>
+<span>
+
+1. getMaxEvaluations : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return evaluations.getMaximalCount();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_79'/>
+79
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_79'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_80'/>
+80
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_80'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_81'/>
+81
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_81'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_82'/>
+82
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_82'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Gets the number of evaluations of the objective function.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_83'/>
+83
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_83'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * The number of evaluations corresponds to the last call to the</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_84'/>
+84
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_84'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * {@code optimize} method. It is 0 if the method has not been</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_85'/>
+85
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_85'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * called yet.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_86'/>
+86
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_86'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_87'/>
+87
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_87'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return the number of evaluations of the objective function.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_88'/>
+88
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_88'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_89'/>
+89
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_89'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public int getEvaluations() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_90'/>
+90
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_90'>1</a>
+<span>
+
+1. getEvaluations : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return evaluations.getCount();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_91'/>
+91
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_91'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_92'/>
+92
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_92'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_93'/>
+93
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_93'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_94'/>
+94
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_94'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Gets the maximal number of iterations.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_95'/>
+95
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_95'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_96'/>
+96
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_96'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return the maximal number of iterations.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_97'/>
+97
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_97'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_98'/>
+98
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_98'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public int getMaxIterations() {</span></pre></td></tr>
+
+
+<tr>
+<td class='uncovered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_99'/>
+99
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_99'>1</a>
+<span>
+
+1. getMaxIterations : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; NO_COVERAGE<br/>
+
+</span>
+</td>
+<td class='uncovered'><pre><span  class='survived'>        return iterations.getMaximalCount();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_100'/>
+100
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_100'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_101'/>
+101
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_101'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_102'/>
+102
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_102'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_103'/>
+103
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_103'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Gets the number of iterations performed by the algorithm.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_104'/>
+104
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_104'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * The number iterations corresponds to the last call to the</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_105'/>
+105
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_105'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * {@code optimize} method. It is 0 if the method has not been</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_106'/>
+106
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_106'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * called yet.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_107'/>
+107
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_107'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_108'/>
+108
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_108'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return the number of evaluations of the objective function.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_109'/>
+109
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_109'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_110'/>
+110
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_110'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public int getIterations() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_111'/>
+111
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_111'>1</a>
+<span>
+
+1. getIterations : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return iterations.getCount();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_112'/>
+112
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_112'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_113'/>
+113
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_113'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_114'/>
+114
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_114'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_115'/>
+115
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_115'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Gets the convergence checker.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_116'/>
+116
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_116'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_117'/>
+117
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_117'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return the object used to check for convergence.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_118'/>
+118
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_118'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_119'/>
+119
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_119'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public ConvergenceChecker&#60;PAIR&#62; getConvergenceChecker() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_120'/>
+120
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_120'>1</a>
+<span>
+
+1. getConvergenceChecker : mutated return of Object value for org/apache/commons/math4/optim/BaseOptimizer::getConvergenceChecker to ( if (x != null) null else throw new RuntimeException ) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return checker;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_121'/>
+121
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_121'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_122'/>
+122
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_122'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_123'/>
+123
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_123'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_124'/>
+124
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_124'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Stores data and performs the optimization.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_125'/>
+125
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_125'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * &#60;p&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_126'/>
+126
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_126'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * The list of parameters is open-ended so that sub-classes can extend it</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_127'/>
+127
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_127'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * with arguments specific to their concrete implementations.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_128'/>
+128
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_128'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * &#60;p&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_129'/>
+129
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_129'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * When the method is called multiple times, instance data is overwritten</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_130'/>
+130
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_130'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * only when actually present in the list of arguments: when not specified,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_131'/>
+131
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_131'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * data set in a previous call is retained (and thus is optional in</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_132'/>
+132
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_132'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * subsequent calls).</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_133'/>
+133
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_133'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * &#60;p&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_134'/>
+134
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_134'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Important note: Subclasses &#60;em&#62;must&#60;/em&#62; override</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_135'/>
+135
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_135'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * {@link #parseOptimizationData(OptimizationData[])} if they need to register</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_136'/>
+136
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_136'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * their own options; but then, they &#60;em&#62;must&#60;/em&#62; also call</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_137'/>
+137
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_137'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * {@code super.parseOptimizationData(optData)} within that method.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_138'/>
+138
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_138'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_139'/>
+139
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_139'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param optData Optimization data.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_140'/>
+140
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_140'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * This method will register the following data:</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_141'/>
+141
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_141'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * &#60;ul&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_142'/>
+142
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_142'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *  &#60;li&#62;{@link MaxEval}&#60;/li&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_143'/>
+143
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_143'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *  &#60;li&#62;{@link MaxIter}&#60;/li&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_144'/>
+144
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_144'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * &#60;/ul&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_145'/>
+145
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_145'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a point/value pair that satisfies the convergence criteria.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_146'/>
+146
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_146'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @throws TooManyEvaluationsException if the maximal number of</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_147'/>
+147
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_147'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * evaluations is exceeded.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_148'/>
+148
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_148'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @throws TooManyIterationsException if the maximal number of</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_149'/>
+149
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_149'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * iterations is exceeded.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_150'/>
+150
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_150'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_151'/>
+151
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_151'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public PAIR optimize(OptimizationData... optData)</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_152'/>
+152
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_152'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        throws TooManyEvaluationsException,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_153'/>
+153
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_153'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>               TooManyIterationsException {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_154'/>
+154
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_154'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        // Parse options.</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_155'/>
+155
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_155'>1</a>
+<span>
+
+1. optimize : removed call to org/apache/commons/math4/optim/BaseOptimizer::parseOptimizationData &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        parseOptimizationData(optData);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_156'/>
+156
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_156'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        // Reset counters.</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_157'/>
+157
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_157'>1</a>
+<span>
+
+1. optimize : removed call to org/apache/commons/math4/optim/BaseOptimizer::resetCounters &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetCounters();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_158'/>
+158
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_158'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        // Perform optimization.</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_159'/>
+159
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_159'>1</a>
+<span>
+
+1. optimize : mutated return of Object value for org/apache/commons/math4/optim/BaseOptimizer::optimize to ( if (x != null) null else throw new RuntimeException ) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return doOptimize();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_160'/>
+160
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_160'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_161'/>
+161
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_161'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_162'/>
+162
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_162'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_163'/>
+163
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_163'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Performs the optimization.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_164'/>
+164
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_164'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_165'/>
+165
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_165'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a point/value pair that satisfies the convergence criteria.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_166'/>
+166
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_166'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @throws TooManyEvaluationsException if the maximal number of</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_167'/>
+167
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_167'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * evaluations is exceeded.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_168'/>
+168
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_168'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @throws TooManyIterationsException if the maximal number of</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_169'/>
+169
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_169'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * iterations is exceeded.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_170'/>
+170
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_170'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_171'/>
+171
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_171'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public PAIR optimize()</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_172'/>
+172
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_172'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        throws TooManyEvaluationsException,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_173'/>
+173
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_173'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>               TooManyIterationsException {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_174'/>
+174
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_174'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        // Reset counters.</span></pre></td></tr>
+
+
+<tr>
+<td class='uncovered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_175'/>
+175
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_175'>1</a>
+<span>
+
+1. optimize : removed call to org/apache/commons/math4/optim/BaseOptimizer::resetCounters &rarr; NO_COVERAGE<br/>
+
+</span>
+</td>
+<td class='uncovered'><pre><span  class='survived'>        resetCounters();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_176'/>
+176
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_176'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        // Perform optimization.</span></pre></td></tr>
+
+
+<tr>
+<td class='uncovered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_177'/>
+177
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_177'>1</a>
+<span>
+
+1. optimize : mutated return of Object value for org/apache/commons/math4/optim/BaseOptimizer::optimize to ( if (x != null) null else throw new RuntimeException ) &rarr; NO_COVERAGE<br/>
+
+</span>
+</td>
+<td class='uncovered'><pre><span  class='survived'>        return doOptimize();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_178'/>
+178
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_178'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_179'/>
+179
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_179'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_180'/>
+180
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_180'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_181'/>
+181
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_181'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Performs the bulk of the optimization algorithm.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_182'/>
+182
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_182'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_183'/>
+183
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_183'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return the point/value pair giving the optimal value of the</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_184'/>
+184
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_184'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * objective function.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_185'/>
+185
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_185'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_186'/>
+186
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_186'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    protected abstract PAIR doOptimize();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_187'/>
+187
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_187'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_188'/>
+188
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_188'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_189'/>
+189
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_189'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Increment the evaluation count.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_190'/>
+190
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_190'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_191'/>
+191
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_191'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @throws TooManyEvaluationsException if the allowed evaluations</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_192'/>
+192
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_192'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * have been exhausted.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_193'/>
+193
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_193'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_194'/>
+194
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_194'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    protected void incrementEvaluationCount()</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_195'/>
+195
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_195'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        throws TooManyEvaluationsException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_196'/>
+196
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_196'>1</a>
+<span>
+
+1. incrementEvaluationCount : removed call to org/apache/commons/math4/util/IntegerSequence$Incrementor::increment &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        evaluations.increment();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_197'/>
+197
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_197'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_198'/>
+198
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_198'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_199'/>
+199
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_199'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_200'/>
+200
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_200'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Increment the iteration count.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_201'/>
+201
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_201'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_202'/>
+202
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_202'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @throws TooManyIterationsException if the allowed iterations</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_203'/>
+203
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_203'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * have been exhausted.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_204'/>
+204
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_204'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_205'/>
+205
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_205'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    protected void incrementIterationCount()</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_206'/>
+206
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_206'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        throws TooManyIterationsException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_207'/>
+207
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_207'>1</a>
+<span>
+
+1. incrementIterationCount : removed call to org/apache/commons/math4/util/IntegerSequence$Incrementor::increment &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        iterations.increment();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_208'/>
+208
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_208'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_209'/>
+209
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_209'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_210'/>
+210
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_210'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_211'/>
+211
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_211'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Scans the list of (required and optional) optimization data that</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_212'/>
+212
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_212'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * characterize the problem.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_213'/>
+213
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_213'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_214'/>
+214
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_214'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param optData Optimization data.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_215'/>
+215
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_215'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * The following data will be looked for:</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_216'/>
+216
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_216'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * &#60;ul&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_217'/>
+217
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_217'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *  &#60;li&#62;{@link MaxEval}&#60;/li&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_218'/>
+218
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_218'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *  &#60;li&#62;{@link MaxIter}&#60;/li&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_219'/>
+219
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_219'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * &#60;/ul&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_220'/>
+220
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_220'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_221'/>
+221
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_221'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    protected void parseOptimizationData(OptimizationData... optData) {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_222'/>
+222
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_222'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        // The existing values (as set by the previous call) are reused if</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_223'/>
+223
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_223'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        // not provided in the argument list.</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_224'/>
+224
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_224'>3</a>
+<span>
+
+1. parseOptimizationData : changed conditional boundary &rarr; KILLED<br/>
+
+2. parseOptimizationData : Changed increment from 1 to -1 &rarr; KILLED<br/>
+
+3. parseOptimizationData : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        for (OptimizationData data : optData) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_225'/>
+225
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_225'>1</a>
+<span>
+
+1. parseOptimizationData : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            if (data instanceof MaxEval) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_226'/>
+226
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_226'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                maxEvaluations = ((MaxEval) data).getMaxEval();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_227'/>
+227
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_227'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                continue;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_228'/>
+228
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_228'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_229'/>
+229
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_229'>1</a>
+<span>
+
+1. parseOptimizationData : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            if (data instanceof MaxIter) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_230'/>
+230
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_230'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                maxIterations = ((MaxIter) data).getMaxIter();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_231'/>
+231
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_231'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                continue;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_232'/>
+232
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_232'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_233'/>
+233
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_233'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_234'/>
+234
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_234'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_235'/>
+235
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_235'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_236'/>
+236
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_236'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /** Reset counters. */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_237'/>
+237
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_237'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private void resetCounters() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_238'/>
+238
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_238'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        evaluations = IntegerSequence.Incrementor.create()</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_239'/>
+239
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_239'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            .withMaximalCount(maxEvaluations)</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_240'/>
+240
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_240'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            .withCallback(MAX_EVAL_CALLBACK);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_241'/>
+241
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_241'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        iterations = IntegerSequence.Incrementor.create()</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_242'/>
+242
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_242'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            .withMaximalCount(maxIterations)</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_243'/>
+243
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_243'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            .withCallback(MAX_ITER_CALLBACK);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_244'/>
+244
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_244'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_245'/>
+245
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_245'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_246'/>
+246
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_246'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_247'/>
+247
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_247'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Defines the action to perform when reaching the maximum number</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_248'/>
+248
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_248'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * of evaluations.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_249'/>
+249
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_249'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_250'/>
+250
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_250'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static class MaxEvalCallback</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_251'/>
+251
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_251'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        implements IntegerSequence.Incrementor.MaxCountExceededCallback {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_252'/>
+252
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_252'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_253'/>
+253
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_253'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>         * {@inheritDoc}</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_254'/>
+254
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_254'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>         * @throws TooManyEvaluationsException</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_255'/>
+255
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_255'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>         */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_256'/>
+256
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_256'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_257'/>
+257
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_257'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        public void trigger(int max) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_258'/>
+258
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_258'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw new TooManyEvaluationsException(max);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_259'/>
+259
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_259'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_260'/>
+260
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_260'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_261'/>
+261
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_261'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_262'/>
+262
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_262'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_263'/>
+263
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_263'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Defines the action to perform when reaching the maximum number</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_264'/>
+264
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_264'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * of evaluations.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_265'/>
+265
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_265'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_266'/>
+266
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_266'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static class MaxIterCallback</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_267'/>
+267
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_267'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        implements IntegerSequence.Incrementor.MaxCountExceededCallback {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_268'/>
+268
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_268'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_269'/>
+269
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_269'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>         * {@inheritDoc}</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_270'/>
+270
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_270'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>         * @throws TooManyIterationsException</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_271'/>
+271
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_271'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>         */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_272'/>
+272
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_272'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_273'/>
+273
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_273'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        public void trigger(int max) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_274'/>
+274
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_274'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw new TooManyIterationsException(max);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_275'/>
+275
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_275'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_276'/>
+276
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_276'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6678f4f5_277'/>
+277
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_277'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_78'>78</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_78'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getMaxEvaluations<br/><b>Killed by : </b>org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest.testBadFunction(org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_90'>90</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_90'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getEvaluations<br/><b>Killed by : </b>org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest.testQuinticMin(org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_99'>99</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_99'/> 
+
+<p class='NO_COVERAGE'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getMaxIterations<br/><b>Killed by : </b>none</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; NO_COVERAGE</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_111'>111</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_111'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getIterations<br/><b>Killed by : </b>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest.testMinimize1(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_120'>120</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_120'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getConvergenceChecker<br/><b>Killed by : </b>org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest.testMissingSearchInterval(org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest)</span></span> mutated return of Object value for org/apache/commons/math4/optim/BaseOptimizer::getConvergenceChecker to ( if (x != null) null else throw new RuntimeException ) &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_155'>155</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_155'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>optimize<br/><b>Killed by : </b>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testBoundariesDimensionMismatch(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest)</span></span> removed call to org/apache/commons/math4/optim/BaseOptimizer::parseOptimizationData &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_157'>157</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_157'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>optimize<br/><b>Killed by : </b>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testBoundaries(org.apache.commons.math4.optim.univariate.BrentOptimizerTest)</span></span> removed call to org/apache/commons/math4/optim/BaseOptimizer::resetCounters &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_159'>159</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_159'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>optimize<br/><b>Killed by : </b>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testBoundaries(org.apache.commons.math4.optim.univariate.BrentOptimizerTest)</span></span> mutated return of Object value for org/apache/commons/math4/optim/BaseOptimizer::optimize to ( if (x != null) null else throw new RuntimeException ) &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_175'>175</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_175'/> 
+
+<p class='NO_COVERAGE'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>optimize<br/><b>Killed by : </b>none</span></span> removed call to org/apache/commons/math4/optim/BaseOptimizer::resetCounters &rarr; NO_COVERAGE</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_177'>177</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_177'/> 
+
+<p class='NO_COVERAGE'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>optimize<br/><b>Killed by : </b>none</span></span> mutated return of Object value for org/apache/commons/math4/optim/BaseOptimizer::optimize to ( if (x != null) null else throw new RuntimeException ) &rarr; NO_COVERAGE</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_196'>196</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_196'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>incrementEvaluationCount<br/><b>Killed by : </b>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testQuinticMax(org.apache.commons.math4.optim.univariate.BrentOptimizerTest)</span></span> removed call to org/apache/commons/math4/util/IntegerSequence$Incrementor::increment &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_207'>207</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_207'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>incrementIterationCount<br/><b>Killed by : </b>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest.testMinimize1(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest)</span></span> removed call to org/apache/commons/math4/util/IntegerSequence$Incrementor::increment &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_224'>224</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_224'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>parseOptimizationData<br/><b>Killed by : </b>org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest.testMissingSearchInterval(org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest)</span></span> changed conditional boundary &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>parseOptimizationData<br/><b>Killed by : </b>org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest.testMissingSearchInterval(org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest)</span></span> Changed increment from 1 to -1 &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>parseOptimizationData<br/><b>Killed by : </b>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testBoundaries(org.apache.commons.math4.optim.univariate.BrentOptimizerTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_225'>225</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_225'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>parseOptimizationData<br/><b>Killed by : </b>org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest.testMissingSearchInterval(org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6678f4f5_229'>229</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6678f4f5_229'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>parseOptimizationData<br/><b>Killed by : </b>org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest.testMissingSearchInterval(org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+
+<li class='mutator'>INCREMENTS_MUTATOR</li>
+
+<li class='mutator'>VOID_METHOD_CALL_MUTATOR</li>
+
+<li class='mutator'>RETURN_VALS_MUTATOR</li>
+
+<li class='mutator'>MATH_MUTATOR</li>
+
+<li class='mutator'>NEGATE_CONDITIONALS_MUTATOR</li>
+
+<li class='mutator'>INVERT_NEGS_MUTATOR</li>
+
+<li class='mutator'>CONDITIONALS_BOUNDARY_MUTATOR</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionMappingAdapterTest.testStartSimplexInsideRange(org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionMappingAdapterTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testInputSigmaDimensionMismatch(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testCigarWithBoundaries(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (596 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest.testMaxIterations(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest) (0 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testModelWithNoArtificialVars(org.apache.commons.math4.optim.linear.SimplexSolverTest) (0 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testSolutionCallback(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testInitOutOfBounds(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testKeepInitIfBest(org.apache.commons.math4.optim.univariate.BrentOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.PowellOptimizerTest.testSumSinc(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.PowellOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMinimization(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath828Cycle(org.apache.commons.math4.optim.linear.SimplexSolverTest) (4 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath290GEQ(org.apache.commons.math4.optim.linear.SimplexSolverTest) (3 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testDiagonalRosen(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (1428 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionMappingAdapterTest.testOptimumOutsideRange(org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionMappingAdapterTest) (3 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest.testBoundsUnsupported(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest) (1 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath781(org.apache.commons.math4.optim.linear.SimplexSolverTest) (2 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testBoundariesDimensionMismatch(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest.testPowell(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest) (2 ms)</li><li>org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest.testMissingSearchInterval(org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest.testMath283(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest) (2 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testDiffPow(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (775 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testDiffPow(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (5714 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath434UnfeasibleSolution(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testInitOutofbounds2(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testSphere(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (16 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath286(org.apache.commons.math4.optim.linear.SimplexSolverTest) (2 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest.testTwoSets(org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testMaximize(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (2337 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testRastrigin(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (86 ms)</li><li>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testSinMinWithValueChecker(org.apache.commons.math4.optim.univariate.BrentOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest.testRedundantEquations(org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath930(org.apache.commons.math4.optim.linear.SimplexSolverTest) (160 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testAckley(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (722 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testSsDiffPow(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (985 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testSsDiffPow(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (1161 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testTablet(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (20 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testTwoAxes(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (1625 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath842Cycle(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testMath832(org.apache.commons.math4.optim.univariate.BrentOptimizerTest) (2 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testSphere(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (293 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapterTest.testUnbounded(org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapterTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest.testLeastSquares2(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.PowellOptimizerTest.testMaximizeQuadratic(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.PowellOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testSolutionWithNegativeDecisionVariable(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest.testMinimize2(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest) (0 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath290LEQ(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testEllipse(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (128 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath272(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest.testBoundsUnsupported(org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest) (5 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest.testLeastSquares1(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest) (2 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath434PivotRowSelection(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testTablet(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (557 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testBoundariesDimensionMismatch(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest.testMaximize1(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest.testColumnsPermutation(org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testCigar(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (555 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest.testCircleFitting(org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testMaximize(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (235 ms)</li><li>org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest.testQuinticMin(org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionMappingAdapterTest.testHalfBounded(org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionMappingAdapterTest) (18 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testTrivialModel(org.apache.commons.math4.optim.linear.SimplexSolverTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest.testLeastSquares3(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest.testNoDependency(org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest.testIllConditioned(org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest) (2 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testCigTab(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (950 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testProblemDimensionTooSmall(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest.testOneSet(org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest.testMissingMaxEval(org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionMappingAdapterTest.testUnbounded(org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionMappingAdapterTest) (5 ms)</li><li>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testBoundaries(org.apache.commons.math4.optim.univariate.BrentOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath293(org.apache.commons.math4.optim.linear.SimplexSolverTest) (2 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testInputSigmaOutOfRange(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapterTest.testStartSimplexOutsideRange(org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapterTest) (2 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.MultiStartMultivariateOptimizerTest.testRosenbrock(org.apache.commons.math4.optim.nonlinear.scalar.MultiStartMultivariateOptimizerTest) (23 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest.testRosenbrock(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest) (1 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath288(org.apache.commons.math4.optim.linear.SimplexSolverTest) (2 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest.testPowell(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testElliRotated(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (5385 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testDimensionMatch(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testAckley(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (977 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testTwoAxes(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (25 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapterTest.testOptimumOutsideRange(org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapterTest) (3 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest.testRosenbrock(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest.testMoreEstimatedParametersSimple(org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testElliRotated(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (860 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testUnboundedSolution(org.apache.commons.math4.optim.linear.SimplexSolverTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testRosen(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (712 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testDegeneracy(org.apache.commons.math4.optim.linear.SimplexSolverTest) (35 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.PowellOptimizerTest.testRelativeToleranceOnScaledValues(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.PowellOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest.testInconsistentEquations(org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testLargeModel(org.apache.commons.math4.optim.linear.SimplexSolverTest) (93 ms)</li><li>org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest.testBadFunction(org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest) (3 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testMaxEvaluations(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testSimplexSolver(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testCigar(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (45 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapterTest.testStartSimplexInsideRange(org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapterTest) (2 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath828(org.apache.commons.math4.optim.linear.SimplexSolverTest) (3 ms)</li><li>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testSinMin(org.apache.commons.math4.optim.univariate.BrentOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testMinEndpoints(org.apache.commons.math4.optim.univariate.BrentOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testMath855(org.apache.commons.math4.optim.univariate.BrentOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest.testSinMin(org.apache.commons.math4.optim.univariate.MultiStartUnivariateOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testEllipse(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (691 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testConstrainedRosen(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (2133 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath434NegativeVariable(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest.testMaximize2(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest) (0 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testInfeasibleSolution(org.apache.commons.math4.optim.linear.SimplexSolverTest) (4 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath713NegativeVariable(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest.testMaximize1(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest) (0 ms)</li><li>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testQuinticMin(org.apache.commons.math4.optim.univariate.BrentOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testQuinticMax(org.apache.commons.math4.optim.univariate.BrentOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.PowellOptimizerTest.testBoundsUnsupported(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.PowellOptimizerTest) (3 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest.testMinimize1(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testMath1466(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (5 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testRosen(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (1196 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testEpsilon(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testMath864(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (3 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testFitAccuracyDependsOnBoundary(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (8 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testMath434PivotRowSelection2(org.apache.commons.math4.optim.linear.SimplexSolverTest) (3 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest.testMoreEstimatedParametersUnsorted(org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest.testMaximize2(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerMultiDirectionalTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest.testBoundsUnsupported(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest.testTrivial(org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.MultiStartMultivariateOptimizerTest.testCircleFitting(org.apache.commons.math4.optim.nonlinear.scalar.MultiStartMultivariateOptimizerTest) (61 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testSingleVariableAndConstraint(org.apache.commons.math4.optim.linear.SimplexSolverTest) (0 ms)</li><li>org.apache.commons.math4.optim.linear.SimplexSolverTest.testRestrictVariablesToNonNegative(org.apache.commons.math4.optim.linear.SimplexSolverTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest.testCigTab(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizerTest) (76 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest.testNonInversible(org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testRastrigin(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (7692 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapterTest.testHalfBounded(org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapterTest) (5 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest.testMinimize2(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest) (0 ms)</li><li>org.apache.commons.math4.optim.univariate.BrentOptimizerTest.testQuinticMinStatistics(org.apache.commons.math4.optim.univariate.BrentOptimizerTest) (22 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.PowellOptimizerTest.testQuadratic(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.PowellOptimizerTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testInitOutofbounds1(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (1 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest.testMinimize1(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizerNelderMeadTest) (0 ms)</li><li>org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest.testConstrainedRosen(org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizerTest) (892 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='http://pitest.org'>PIT</a> 1.2.0
+
+</body>
+</html>
