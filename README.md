@@ -19,23 +19,23 @@ We need to perform various test suits in order to achieve full coverage of the p
 [*For all the version of all the projects, click here.*](https://drive.google.com/drive/folders/19Y22I9IVbl-mYOMSPOsxK-g_iJCwilIZ?usp=sharing)
 
 #### File Structure:
-.
-├── Metric data collection
-	├── metric1					# Metric 1 related all the output files.
-	├── metric2					# Metric 2 related all the output files.
-	├── metric3					# Metric 3 related all the output files.
-	├── metric4					# Metric 4 related all the output files.
-	├── metric5					# Metric 5 related all the output files.
-	├── metric6					# Metric 6 related all the output files.
-├── Metric data analysis
-	├── MetricCorrelation				# Correlation metric level
-		├── metric1&2_3				# Correlation between metric 1 and 2 with 3
-		├── metric1&2_6				# Correlation between metric 1 and 2 with 6
-		├── metric4_1&2				# Correlation between metric 1 and 2 with 4
-		├── metric5_6				# Correlation between metric 5 with 6
-	├── ProjectCorrelation				# Correlation project level
-├── Documentation					# Documentation for the project
-└── README.md
+	.
+	├── Metric data collection
+		├── metric1					# Metric 1 related all the output files.
+		├── metric2					# Metric 2 related all the output files.
+		├── metric3					# Metric 3 related all the output files.
+		├── metric4					# Metric 4 related all the output files.
+		├── metric5					# Metric 5 related all the output files.
+		├── metric6					# Metric 6 related all the output files.
+	├── Metric data analysis
+		├── MetricCorrelation				# Correlation metric level
+			├── metric1&2_3				# Correlation between metric 1 and 2 with 3
+			├── metric1&2_6				# Correlation between metric 1 and 2 with 6
+			├── metric4_1&2				# Correlation between metric 1 and 2 with 4
+			├── metric5_6				# Correlation between metric 5 with 6
+		├── ProjectCorrelation				# Correlation project level
+	├── Documentation					# Documentation for the project
+	└── README.md
 
 
 #### Requirements:
