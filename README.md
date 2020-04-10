@@ -103,6 +103,37 @@ The following steps provides the execution and evaluation process of mutation te
  5. A .csv file is create showing various mutaion score of every mutation test that has been applied to the project.
  6. Execute the ClassMutationScore.py generator to generate class wise mutation score.
 
+#### Configuration for JaCoCo with Maven
+The following steps provides the execution and evaluation of code coverage and cyclomatic complexity metrics
+1. JaCoCo version 3.8.1 required or higher
+2. Copy the plugin into the pom file of your java project.
+3. plugin---
+            <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.5</version>
+                    <executions>
+                      <execution>
+                        <id>coverage-initialize</id>
+                        <goals>
+                          <goal>prepare-agent</goal>
+                        </goals>
+                      </execution>
+                      <execution>
+                        <id>test-report</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                          <goal>report</goal>
+                        </goals>
+                      </execution>
+                    </executions>
+                  </plugin>
+4. Run the test cases
+5. Execute mvn clean install
+6. Execute mvn test
+7. Execute mvn report
+8. In the target -> site -> Jacoco -> .csv jacoco report is generated with the code coverage and cyclomatic complexity.
+
 
 #### Team members:
 
