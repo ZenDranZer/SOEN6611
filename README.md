@@ -30,11 +30,13 @@ We need to perform various test suits in order to achieve full coverage of the p
 	├── Metric data analysis
 		├── MetricCorrelation				# Correlation metric level
 			├── metric1&2_3				# Correlation between metric 1 and 2 with 3
+				├── Jupyter Notebook		# Correlation source code and Plots
+				├── html			# Generated HTML of Correlation Jupyter Notebook
 			├── metric1&2_6				# Correlation between metric 1 and 2 with 6
 			├── metric4_1&2				# Correlation between metric 1 and 2 with 4
 			├── metric5_6				# Correlation between metric 5 with 6
-		├── ProjectCorrelation				# Correlation project level
-	├── Documentation					# Documentation for the project
+		├── ProjectAnalysis				# Project level data analysis
+	├── Documents						# Documentation for the project
 	└── README.md
 
 
@@ -100,6 +102,37 @@ The following steps provides the execution and evaluation process of mutation te
  4. Execute mvn org.pitest:pitest-maven:mutationCoverage -X
  5. A .csv file is create showing various mutaion score of every mutation test that has been applied to the project.
  6. Execute the ClassMutationScore.py generator to generate class wise mutation score.
+
+#### Configuration for JaCoCo with Maven
+The following steps provides the execution and evaluation of code coverage and cyclomatic complexity metrics
+1. JaCoCo version 3.8.1 required or higher
+2. Copy the plugin into the pom file of your java project.
+3. plugin---
+            <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.5</version>
+                    <executions>
+                      <execution>
+                        <id>coverage-initialize</id>
+                        <goals>
+                          <goal>prepare-agent</goal>
+                        </goals>
+                      </execution>
+                      <execution>
+                        <id>test-report</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                          <goal>report</goal>
+                        </goals>
+                      </execution>
+                    </executions>
+                  </plugin>
+4. Run the test cases
+5. Execute mvn clean install
+6. Execute mvn test
+7. Execute mvn report
+8. In the target -> site -> Jacoco -> .csv jacoco report is generated with the code coverage and cyclomatic complexity.
 
 
 #### Team members:

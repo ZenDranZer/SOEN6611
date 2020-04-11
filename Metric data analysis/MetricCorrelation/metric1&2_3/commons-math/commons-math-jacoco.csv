@@ -232,7 +232,7 @@ Apache Commons Math,org.apache.commons.math3.ode,JacobianMatrices,44,358,9,25,9,
 Apache Commons Math,org.apache.commons.math3.ode,UnknownParameterException,0,16,0,0,0,4,0,2,0,2
 Apache Commons Math,org.apache.commons.math3.ode,MultistepFieldIntegrator.InitializationCompletedMarkerException,0,5,0,0,0,2,0,1,0,1
 Apache Commons Math,org.apache.commons.math3.ode,MultistepIntegrator.NordsieckInitializer,54,220,2,8,6,36,2,6,0,3
-Apache Commons Math,org.apache.commons.math3.ode,AbstractIntegrator,10,612,2,54,2,135,4,49,2,23
+Apache Commons Math,org.apache.commons.math3.ode,AbstractIntegrator,10,630,2,60,2,137,4,52,2,23
 Apache Commons Math,org.apache.commons.math3.ode,JacobianMatrices.MismatchedEquations,6,0,0,0,2,0,1,0,1,0
 Apache Commons Math,org.apache.commons.math3.ode,MultistepFieldIntegrator,25,246,1,7,7,49,6,12,5,9
 Apache Commons Math,org.apache.commons.math3.ode,ContinuousOutputModel,22,537,3,45,3,110,5,32,2,11
@@ -497,7 +497,7 @@ Apache Commons Math,org.apache.commons.math3.optimization.direct,CMAESOptimizer,
 Apache Commons Math,org.apache.commons.math3.optimization.direct,CMAESOptimizer.Sigma,0,35,0,4,0,7,0,4,0,2
 Apache Commons Math,org.apache.commons.math3.optimization.direct,NelderMeadSimplex,10,408,1,31,3,82,2,23,1,8
 Apache Commons Math,org.apache.commons.math3.optimization.direct,PowellOptimizer.LineSearch,0,55,0,0,0,10,0,2,0,2
-Apache Commons Math,org.apache.commons.math3.optimization.direct,CMAESOptimizer.FitnessFunction,50,129,8,12,10,26,6,10,1,5
+Apache Commons Math,org.apache.commons.math3.optimization.direct,CMAESOptimizer.FitnessFunction,43,136,7,13,9,27,5,11,1,5
 Apache Commons Math,org.apache.commons.math3.optimization.direct,CMAESOptimizer.PopulationSize,6,11,1,1,1,5,1,2,0,2
 Apache Commons Math,org.apache.commons.math3.optimization.direct,PowellOptimizer,21,386,3,29,3,85,3,20,0,7
 Apache Commons Math,org.apache.commons.math3.optimization.direct,SimplexOptimizer.new Comparator() {...},0,30,0,2,0,4,0,3,0,2
@@ -958,7 +958,7 @@ Apache Commons Math,org.apache.commons.math3.stat.descriptive,MultivariateSummar
 Apache Commons Math,org.apache.commons.math3.stat.descriptive,AggregateSummaryStatistics.AggregatingSummaryStatistics,36,22,8,0,8,8,6,2,2,2
 Apache Commons Math,org.apache.commons.math3.stat.descriptive,SynchronizedDescriptiveStatistics,9,73,0,0,4,28,2,14,2,14
 Apache Commons Math,org.apache.commons.math3.stat.descriptive,DescriptiveStatistics,89,765,3,21,18,145,4,59,1,50
-Apache Commons Math,org.apache.commons.math3.stat.descriptive,AbstractStorelessUnivariateStatistic,7,111,1,17,1,24,1,15,0,7
+Apache Commons Math,org.apache.commons.math3.stat.descriptive,AbstractStorelessUnivariateStatistic,7,111,2,16,1,24,2,14,0,7
 Apache Commons Math,org.apache.commons.math3.stat.descriptive,AbstractUnivariateStatistic,68,60,10,2,13,11,7,10,2,9
 Apache Commons Math,org.apache.commons.math3.stat.descriptive,SynchronizedSummaryStatistics,72,77,0,0,29,30,13,24,13,24
 Apache Commons Math,org.apache.commons.math3.stat.descriptive,SummaryStatistics,96,874,19,41,28,169,28,42,9,31
