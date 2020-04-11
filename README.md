@@ -21,12 +21,12 @@ We need to perform various test suits in order to achieve full coverage of the p
 #### File Structure:
 	.
 	├── Metric data collection
-		├── metric1					# Metric 1 related all the output files.
-		├── metric2					# Metric 2 related all the output files.
-		├── metric3					# Metric 3 related all the output files.
-		├── metric4					# Metric 4 related all the output files.
-		├── metric5					# Metric 5 related all the output files.
-		├── metric6					# Metric 6 related all the output files.
+		├── metric1					# Metric 1 Raw Data - All Projects
+		├── metric2					# Metric 2 Raw Data - All Projects
+		├── metric3					# Metric 3 Raw Data - All Projects
+		├── metric4					# Metric 4 Raw Data - All Projects
+		├── metric5					# Metric 5 Raw Data - All Projects
+		├── metric6					# Metric 6 Raw Data - All Projects
 	├── Metric data analysis
 		├── MetricCorrelation				# Correlation metric level
 			├── metric1&2_3				# Correlation between metric 1 and 2 with 3
